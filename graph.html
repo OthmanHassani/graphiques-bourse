@@ -16,7 +16,7 @@
   <div class="tradingview-widget-container__widget"></div>
 </div>
 <script>
-  // Utilisation : graph.html?symbol=NASDAQ:SYM  (optionnel : &interval=D|W|M, &range=12M|60M|ALL)
+  // Utilisation : graph.html?symbol=NASDAQ:SYM  (optionnel : &interval=D|W|M, &range=1M|3M|12M|60M|ALL)
   var p = new URLSearchParams(location.search);
   var symbol = p.get("symbol");
   if (!symbol) {
@@ -30,7 +30,7 @@
       autosize: true,
       symbol: symbol,
       interval: p.get("interval") || "D",
-      range: p.get("range") || "12M",
+      range: p.get("range") || "1M",
       timezone: "Europe/Paris",
       theme: p.get("theme") || (dark ? "dark" : "light"),
       style: "1",
