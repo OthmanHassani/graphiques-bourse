@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Graphique de cours</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #ffffff; }
+  @media (prefers-color-scheme: dark) { html, body { background: #191919; } }
+  .tradingview-widget-container, .tradingview-widget-container__widget { height: 100%; width: 100%; }
+  #erreur { font: 14px system-ui, sans-serif; color: #666; padding: 16px; }
+</style>
+</head>
+<body>
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+</div>
+<script>
+  // Utilisation : graph.html?symbol=NASDAQ:SYM  (optionnel : &interval=D|W|M, &range=12M|60M|ALL)
+  var p = new URLSearchParams(location.search);
+  var symbol = p.get("symbol");
+  if (!symbol) {
+    document.body.innerHTML = '<p id="erreur">Indique un ticker dans le lien, par exemple graph.html?symbol=NASDAQ:SYM</p>';
+  } else {
+    var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var s = document.createElement("script");
+    s.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+    s.async = true;
+    s.innerHTML = JSON.stringify({
+      autosize: true,
+      symbol: symbol,
+      interval: p.get("interval") || "D",
+      range: p.get("range") || "12M",
+      timezone: "Europe/Paris",
+      theme: p.get("theme") || (dark ? "dark" : "light"),
+      style: "1",
+      locale: "fr",
+      allow_symbol_change: false,
+      hide_side_toolbar: true,
+      withdateranges: true,
+      details: false,
+      calendar: false,
+      support_host: "https://www.tradingview.com"
+    });
+    document.querySelector(".tradingview-widget-container").appendChild(s);
+  }
+</script>
+</body>
+</html>
